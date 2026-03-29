@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Martiline · Terminal Translate v7.1</title>
+    <title>Martiline · Terminal Translate v7.2</title>
     <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
@@ -14,184 +14,56 @@
             --text-main: #f0f2f5;
             --border: #30363d;
         }
-
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
-        /* --- LOCK SCREEN --- */
-        #lock-screen {
-            position: fixed;
-            inset: 0;
-            background: var(--bg-dark);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            z-index: 9999;
-            gap: 2rem;
-        }
-
-        #lock-screen .lock-brand {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-weight: 800;
-            font-size: 3.5rem;
-            color: var(--martiline-orange);
-            letter-spacing: 4px;
-        }
-
-        #lock-screen .lock-sub {
-            font-family: 'Barlow Condensed', sans-serif;
-            font-size: 1rem;
-            color: #444;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-top: -1.5rem;
-        }
-
-        #lock-screen .lock-box {
-            background: var(--bg-panel);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 2.5rem 3rem;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1.2rem;
-            min-width: 320px;
-        }
-
-        #lock-screen .lock-icon {
-            font-size: 2rem;
-            color: var(--martiline-orange);
-        }
-
-        #lock-screen label {
-            font-size: 0.7rem;
-            font-weight: 800;
-            color: #555;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            align-self: flex-start;
-        }
-
-        #lock-screen input[type="password"] {
-            width: 100%;
-            background: #000;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            color: var(--text-main);
-            padding: 0.75rem 1rem;
-            font-size: 1.2rem;
-            outline: none;
-            letter-spacing: 6px;
-            text-align: center;
-            transition: 0.2s;
-        }
-
-        #lock-screen input[type="password"]:focus {
-            border-color: var(--martiline-orange);
-        }
-
-        #lock-screen .btn-enter {
-            width: 100%;
-            background: var(--martiline-orange);
-            color: #000;
-            border: none;
-            border-radius: 8px;
-            padding: 0.75rem;
-            font-family: 'Barlow Condensed', sans-serif;
-            font-weight: 800;
-            font-size: 1.1rem;
-            letter-spacing: 2px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-
-        #lock-screen .btn-enter:hover {
-            background: #ff8833;
-        }
-
-        #lock-screen .lock-error {
-            font-size: 0.75rem;
-            color: #ff4444;
-            font-weight: 600;
-            min-height: 1rem;
-            letter-spacing: 1px;
-        }
-
-        /* shake animation on wrong password */
-        @keyframes shake {
-            0%, 100% { transform: translateX(0); }
-            20% { transform: translateX(-8px); }
-            40% { transform: translateX(8px); }
-            60% { transform: translateX(-6px); }
-            80% { transform: translateX(6px); }
-        }
+        /* LOCK */
+        #lock-screen { position: fixed; inset: 0; background: var(--bg-dark); display: flex; flex-direction: column; align-items: center; justify-content: center; z-index: 9999; gap: 2rem; }
+        #lock-screen .lock-brand { font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 3.5rem; color: var(--martiline-orange); letter-spacing: 4px; }
+        #lock-screen .lock-sub { font-family: 'Barlow Condensed', sans-serif; font-size: 1rem; color: #444; letter-spacing: 2px; text-transform: uppercase; margin-top: -1.5rem; }
+        #lock-screen .lock-box { background: var(--bg-panel); border: 1px solid var(--border); border-radius: 16px; padding: 2.5rem 3rem; display: flex; flex-direction: column; align-items: center; gap: 1.2rem; min-width: 320px; }
+        #lock-screen .lock-icon { font-size: 2rem; }
+        #lock-screen label { font-size: 0.7rem; font-weight: 800; color: #555; letter-spacing: 2px; text-transform: uppercase; align-self: flex-start; }
+        #lock-screen input[type="password"] { width: 100%; background: #000; border: 1px solid var(--border); border-radius: 8px; color: var(--text-main); padding: 0.75rem 1rem; font-size: 1.2rem; outline: none; letter-spacing: 6px; text-align: center; transition: 0.2s; }
+        #lock-screen input[type="password"]:focus { border-color: var(--martiline-orange); }
+        #lock-screen .btn-enter { width: 100%; background: var(--martiline-orange); color: #000; border: none; border-radius: 8px; padding: 0.75rem; font-family: 'Barlow Condensed', sans-serif; font-weight: 800; font-size: 1.1rem; letter-spacing: 2px; cursor: pointer; transition: 0.2s; }
+        #lock-screen .btn-enter:hover { background: #ff8833; }
+        #lock-screen .lock-error { font-size: 0.75rem; color: #ff4444; font-weight: 600; min-height: 1rem; letter-spacing: 1px; }
+        @keyframes shake { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-6px)} 80%{transform:translateX(6px)} }
         .shake { animation: shake 0.4s ease; }
 
-        /* --- APP (hidden until unlock) --- */
+        /* APP */
         #app { display: none; flex: 1; flex-direction: column; overflow: hidden; }
         #app.unlocked { display: flex; }
 
-        /* --- HEADER --- */
-        header { 
-            padding: 1rem 3rem; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
-            background: #000; 
-            border-bottom: 2px solid var(--martiline-orange);
-            flex-shrink: 0;
-        }
-        
-        .brand-left { 
-            font-family: 'Barlow Condensed'; 
-            font-weight: 800; 
-            font-size: 2.8rem; 
-            color: var(--martiline-orange); 
-            letter-spacing: 2px; 
-            text-transform: uppercase;
-        }
-        
-        .brand-right { 
-            font-family: 'Barlow Condensed'; 
-            font-weight: 700; 
-            font-size: 1rem; 
-            color: var(--martiline-orange); 
-            letter-spacing: 1px; 
-            text-transform: uppercase; 
-        }
+        header { padding: 1rem 3rem; display: flex; justify-content: space-between; align-items: center; background: #000; border-bottom: 2px solid var(--martiline-orange); flex-shrink: 0; }
+        .brand-left { font-family: 'Barlow Condensed'; font-weight: 800; font-size: 2.8rem; color: var(--martiline-orange); letter-spacing: 2px; text-transform: uppercase; }
+        .brand-right { font-family: 'Barlow Condensed'; font-weight: 700; font-size: 1rem; color: var(--martiline-orange); letter-spacing: 1px; text-transform: uppercase; }
 
         .app-container { flex: 1; display: flex; flex-direction: column; overflow: hidden; padding: 1.2rem 2.5rem; gap: 1rem; }
-
-        .control-bar { 
-            background: var(--bg-panel); padding: 0.8rem 1.5rem; border-radius: 10px; border: 1px solid var(--border); 
-            display: flex; justify-content: space-between; align-items: center;
-        }
+        .control-bar { background: var(--bg-panel); padding: 0.8rem 1.5rem; border-radius: 10px; border: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
         .detected-label { font-size: 0.75rem; font-weight: 600; color: #666; }
         .detected-label b { color: var(--martiline-orange); text-transform: uppercase; margin-left: 6px; font-family: 'Barlow Condensed'; font-size: 1.1rem; }
 
         .panels-wrapper { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.2rem; flex: 1; min-height: 0; }
-        .box { display: flex; flex-direction: column; gap: 0.6rem; height: 100%; position: relative; }
-        
+        .box { display: flex; flex-direction: column; gap: 0.6rem; height: 100%; }
         .box-header { display: flex; justify-content: space-between; align-items: center; }
         .box-label { font-size: 0.7rem; text-transform: uppercase; font-weight: 800; color: var(--martiline-orange); letter-spacing: 1px; }
-        
-        .actions-group { display: flex; gap: 6px; }
-        .btn-tool { 
-            background: #000; border: 1px solid #333; color: #888; font-size: 0.6rem; 
-            padding: 3px 8px; border-radius: 4px; cursor: pointer; transition: 0.2s; font-weight: bold;
-        }
-        .btn-tool:hover { border-color: var(--martiline-orange); color: var(--martiline-orange); }
-        .btn-clear { color: #ff4444; border-color: rgba(255, 68, 68, 0.2); }
-        .btn-clear:hover { background: rgba(255, 68, 68, 0.1); border-color: #ff4444; }
+        .actions-group { display: flex; gap: 6px; align-items: center; }
 
-        textarea, .output-div { 
-            width: 100%; height: 100%; background: rgba(22, 27, 34, 0.8); border: 1px solid var(--border); 
-            border-radius: 10px; color: #fff; padding: 1.2rem; font-size: 1rem; line-height: 1.6; 
-            resize: none; outline: none; overflow-y: auto; transition: 0.2s;
-        }
-        textarea:focus { border-color: var(--martiline-orange); background: rgba(22, 27, 34, 1); }
+        .btn-tool { background: #000; border: 1px solid #333; color: #888; font-size: 0.6rem; padding: 3px 8px; border-radius: 4px; cursor: pointer; transition: 0.2s; font-weight: bold; }
+        .btn-tool:hover { border-color: var(--martiline-orange); color: var(--martiline-orange); }
+        .btn-clear { color: #ff4444; border-color: rgba(255,68,68,0.2); }
+        .btn-clear:hover { background: rgba(255,68,68,0.1); border-color: #ff4444; }
+
+        .btn-audio { background: #000; border: 1px solid #333; color: #888; font-size: 0.8rem; padding: 2px 7px; border-radius: 4px; cursor: pointer; transition: 0.2s; line-height: 1.4; }
+        .btn-audio:hover { border-color: var(--martiline-orange); color: var(--martiline-orange); }
+        @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .btn-audio.speaking { border-color: var(--martiline-orange); color: var(--martiline-orange); animation: pulse 1s infinite; }
+
+        textarea { width: 100%; height: 100%; background: rgba(22,27,34,0.8); border: 1px solid var(--border); border-radius: 10px; color: #fff; padding: 1.2rem; font-size: 1rem; line-height: 1.6; resize: none; outline: none; overflow-y: auto; transition: 0.2s; font-family: 'Inter', sans-serif; }
+        textarea:focus { border-color: var(--martiline-orange); background: rgba(22,27,34,1); }
+        textarea::selection { background: rgba(255,102,0,0.3); }
 
         select { background: #000; color: #fff; border: 1px solid var(--martiline-orange); padding: 5px 12px; border-radius: 4px; font-size: 0.75rem; cursor: pointer; outline: none; }
 
@@ -201,10 +73,9 @@
 </head>
 <body>
 
-<!-- LOCK SCREEN -->
 <div id="lock-screen">
     <div class="lock-brand">MARTILINE</div>
-    <div class="lock-sub">Terminal Translate v7.1</div>
+    <div class="lock-sub">Terminal Translate v7.2</div>
     <div class="lock-box">
         <div class="lock-icon">🔒</div>
         <label for="pwd-input">Acceso restringido</label>
@@ -214,18 +85,17 @@
     </div>
 </div>
 
-<!-- APP (oculta hasta desbloqueo) -->
 <div id="app">
     <header>
         <div class="brand-left">MARTILINE</div>
-        <div class="brand-right">MARTILINE TERMINAL TRANSLATE v7.1</div>
+        <div class="brand-right">MARTILINE TERMINAL TRANSLATE v7.2</div>
     </header>
 
     <div class="app-container">
         <div class="control-bar">
             <div class="detected-label">ORIGEN DETECTADO: <b id="lang-detected">...</b></div>
-            <div style="display:flex; align-items:center; gap:12px;">
-                <label style="font-size: 0.65rem; font-weight: 800; color: #555;">IDIOMA OBJETIVO:</label>
+            <div style="display:flex;align-items:center;gap:12px;">
+                <label style="font-size:0.65rem;font-weight:800;color:#555;">IDIOMA OBJETIVO:</label>
                 <select id="selector-target" onchange="processAll()">
                     <option value="es">ESPAÑOL</option>
                     <option value="en" selected>INGLÉS</option>
@@ -247,7 +117,8 @@
                 <div class="box-header">
                     <div class="box-label">1. Entrada de Datos</div>
                     <div class="actions-group">
-                        <button class="btn-tool" onclick="saveAsTXT('input-text', 'Entrada')">TXT</button>
+                        <button class="btn-audio" id="btn-audio-input" onclick="speakPanel('input-text','auto')" title="Leer en voz alta">🔊</button>
+                        <button class="btn-tool" onclick="saveAsTXT('input-text','Entrada')">TXT</button>
                         <button class="btn-tool btn-clear" onclick="clearField('input-text')">🗑️</button>
                     </div>
                 </div>
@@ -258,24 +129,26 @@
                 <div class="box-header">
                     <div class="box-label">2. Traducción Español</div>
                     <div class="actions-group">
-                        <button class="btn-tool" onclick="saveAsPDF('output-es', 'Traducción Español')">PDF</button>
-                        <button class="btn-tool" onclick="saveAsTXT('output-es', 'Traduccion_ES')">TXT</button>
+                        <button class="btn-audio" id="btn-audio-es" onclick="speakPanel('output-es','es')" title="Leer en español">🔊</button>
+                        <button class="btn-tool" onclick="saveAsPDF('output-es','Traducción Español')">PDF</button>
+                        <button class="btn-tool" onclick="saveAsTXT('output-es','Traduccion_ES')">TXT</button>
                         <button class="btn-tool btn-clear" onclick="clearField('output-es')">🗑️</button>
                     </div>
                 </div>
-                <div id="output-es" class="output-div"></div>
+                <textarea id="output-es" placeholder="Traducción al español aparecerá aquí..."></textarea>
             </div>
 
             <div class="box">
                 <div class="box-header">
                     <div class="box-label">3. Traducción Multilingüe</div>
                     <div class="actions-group">
-                        <button class="btn-tool" onclick="saveAsPDF('output-target', 'Traducción Multilingüe')">PDF</button>
-                        <button class="btn-tool" onclick="saveAsTXT('output-target', 'Traduccion_Multi')">TXT</button>
+                        <button class="btn-audio" id="btn-audio-target" onclick="speakPanel('output-target', document.getElementById('selector-target').value)" title="Leer en idioma objetivo">🔊</button>
+                        <button class="btn-tool" onclick="saveAsPDF('output-target','Traducción Multilingüe')">PDF</button>
+                        <button class="btn-tool" onclick="saveAsTXT('output-target','Traduccion_Multi')">TXT</button>
                         <button class="btn-tool btn-clear" onclick="clearField('output-target')">🗑️</button>
                     </div>
                 </div>
-                <div id="output-target" class="output-div"></div>
+                <textarea id="output-target" placeholder="Traducción al idioma objetivo aparecerá aquí..."></textarea>
             </div>
         </div>
     </div>
@@ -289,90 +162,137 @@
 </div>
 
 <script>
-    // --- LOCK ---
+    // LOCK
     function checkPassword() {
-        const input = document.getElementById('pwd-input').value;
-        const errorEl = document.getElementById('lock-error');
+        var input = document.getElementById('pwd-input').value;
+        var errorEl = document.getElementById('lock-error');
         if (input === '2026') {
             document.getElementById('lock-screen').style.display = 'none';
             document.getElementById('app').classList.add('unlocked');
         } else {
             errorEl.textContent = 'Clave incorrecta. Intente nuevamente.';
-            const box = document.querySelector('.lock-box');
+            var box = document.querySelector('.lock-box');
             box.classList.remove('shake');
-            void box.offsetWidth; // force reflow
+            void box.offsetWidth;
             box.classList.add('shake');
             document.getElementById('pwd-input').value = '';
             document.getElementById('pwd-input').focus();
         }
     }
 
-    // --- TRANSLATOR ---
-    const LANG_NAMES = { 'es': 'Español', 'en': 'Inglés', 'zh-cn': 'Chino', 'de': 'Alemán', 'hi': 'Hindi', 'ko': 'Coreano', 'ja': 'Japonés', 'fr': 'Francés', 'it': 'Italiano', 'pt': 'Portugués', 'ru': 'Ruso' };
+    // LANG MAPS
+    var LANG_NAMES = { 'es':'Español','en':'Inglés','zh-cn':'Chino','de':'Alemán','hi':'Hindi','ko':'Coreano','ja':'Japonés','fr':'Francés','it':'Italiano','pt':'Portugués','ru':'Ruso' };
+    var SPEECH_LANG = { 'es':'es-ES','en':'en-US','zh-CN':'zh-CN','de':'de-DE','hi':'hi-IN','ko':'ko-KR','ja':'ja-JP','fr':'fr-FR','it':'it-IT','pt':'pt-BR','ru':'ru-RU' };
 
+    // TRANSLATOR
     async function callAPI(text, tl) {
         try {
-            const r = await fetch(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=${tl}&dt=t&q=${encodeURI(text)}`);
-            const d = await r.json();
-            if(tl === 'es') {
-                const code = d[2].toLowerCase();
+            var r = await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=' + tl + '&dt=t&q=' + encodeURIComponent(text));
+            var d = await r.json();
+            if (tl === 'es') {
+                var code = d[2] ? d[2].toLowerCase() : '?';
                 document.getElementById('lang-detected').innerText = LANG_NAMES[code] || code.toUpperCase();
             }
-            return d[0].map(x => x[0]).join('');
-        } catch (e) { return "Error de conexión..."; }
+            return d[0].map(function(x){ return x[0]; }).join('');
+        } catch(e) { return 'Error de conexión...'; }
     }
 
-    async function processAll() {
-        const text = document.getElementById('input-text').value;
-        const target = document.getElementById('selector-target').value;
-        if (!text.trim()) return resetState();
-        document.getElementById('output-es').innerText = await callAPI(text, 'es');
-        document.getElementById('output-target').innerText = await callAPI(text, target);
+    var debounceTimer = null;
+    function processAll() {
+        clearTimeout(debounceTimer);
+        debounceTimer = setTimeout(async function() {
+            var text = document.getElementById('input-text').value;
+            var target = document.getElementById('selector-target').value;
+            if (!text.trim()) { resetState(); return; }
+            var results = await Promise.all([callAPI(text,'es'), callAPI(text, target)]);
+            document.getElementById('output-es').value = results[0];
+            document.getElementById('output-target').value = results[1];
+        }, 600);
     }
 
     function clearField(id) {
-        const el = document.getElementById(id);
-        if(el.tagName === "TEXTAREA") { el.value = ""; resetState(); }
-        else { el.innerText = ""; }
+        document.getElementById(id).value = '';
+        if (id === 'input-text') resetState();
     }
 
     function resetState() {
-        document.getElementById('output-es').innerText = "";
-        document.getElementById('output-target').innerText = "";
-        document.getElementById('lang-detected').innerText = "...";
+        document.getElementById('output-es').value = '';
+        document.getElementById('output-target').value = '';
+        document.getElementById('lang-detected').innerText = '...';
     }
 
+    // AUDIO TTS
+    var speakingBtn = null;
+    var BTN_MAP = { 'input-text':'btn-audio-input', 'output-es':'btn-audio-es', 'output-target':'btn-audio-target' };
+
+    function speakPanel(panelId, langCode) {
+        var text = document.getElementById(panelId).value.trim();
+        if (!text) return;
+
+        var btnId = BTN_MAP[panelId];
+
+        // Toggle off if already speaking this panel
+        if (speakingBtn === btnId && window.speechSynthesis.speaking) {
+            window.speechSynthesis.cancel();
+            return;
+        }
+
+        window.speechSynthesis.cancel();
+
+        var utterance = new SpeechSynthesisUtterance(text);
+
+        if (langCode === 'auto') {
+            var detected = document.getElementById('lang-detected').innerText.toLowerCase();
+            var detectedKey = Object.keys(LANG_NAMES).find(function(k){ return LANG_NAMES[k].toLowerCase() === detected; });
+            utterance.lang = detectedKey ? (SPEECH_LANG[detectedKey] || 'es-ES') : 'es-ES';
+        } else {
+            utterance.lang = SPEECH_LANG[langCode] || langCode;
+        }
+
+        utterance.rate = 0.92;
+        utterance.pitch = 1;
+
+        utterance.onstart = function() {
+            speakingBtn = btnId;
+            var btn = document.getElementById(btnId);
+            if (btn) btn.classList.add('speaking');
+        };
+        var cleanup = function() {
+            speakingBtn = null;
+            var btn = document.getElementById(btnId);
+            if (btn) btn.classList.remove('speaking');
+        };
+        utterance.onend = cleanup;
+        utterance.onerror = cleanup;
+
+        window.speechSynthesis.speak(utterance);
+    }
+
+    // EXPORT
     function saveAsTXT(id, fileName) {
-        const val = document.getElementById(id).innerText || document.getElementById(id).value;
-        if(!val) return;
-        const blob = new Blob([val], {type: "text/plain"});
-        const url = URL.createObjectURL(blob);
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = `Martiline_${fileName}.txt`;
-        link.click();
+        var val = document.getElementById(id).value;
+        if (!val) return;
+        var blob = new Blob([val], { type: 'text/plain' });
+        var url = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; a.download = 'Martiline_' + fileName + '.txt';
+        a.click();
+        URL.revokeObjectURL(url);
     }
 
     function saveAsPDF(id, title) {
-        const text = document.getElementById(id).innerText || document.getElementById(id).value;
-        if(!text) return;
-        const { jsPDF } = window.jspdf;
-        const doc = new jsPDF('p', 'mm', 'a4');
-        doc.setFillColor(0, 0, 0);
-        doc.rect(0, 0, 210, 30, 'F');
-        doc.setFontSize(22);
-        doc.setTextColor(255, 102, 0);
-        doc.text("MARTILINE LOGISTICS REPORT", 15, 20);
-        doc.setTextColor(0,0,0);
-        doc.setFontSize(14);
-        doc.text(title, 15, 45);
-        doc.setFontSize(10);
-        const splitLines = doc.splitTextToSize(text, 180);
-        doc.text(splitLines, 15, 55);
-        doc.setFontSize(8);
-        doc.setTextColor(180);
-        doc.text("© Luis Cartes Henríquez · Martiline Terminal v7.1", 15, 285);
-        doc.save(`Martiline_${title.replace(' ', '_')}.pdf`);
+        var text = document.getElementById(id).value;
+        if (!text) return;
+        var doc = new window.jspdf.jsPDF('p','mm','a4');
+        doc.setFillColor(0,0,0); doc.rect(0,0,210,30,'F');
+        doc.setFontSize(22); doc.setTextColor(255,102,0);
+        doc.text('MARTILINE LOGISTICS REPORT',15,20);
+        doc.setTextColor(0,0,0); doc.setFontSize(14);
+        doc.text(title,15,45); doc.setFontSize(10);
+        doc.text(doc.splitTextToSize(text,180),15,55);
+        doc.setFontSize(8); doc.setTextColor(180);
+        doc.text('© Luis Cartes Henríquez · Martiline Terminal v7.2',15,285);
+        doc.save('Martiline_' + title.replace(/ /g,'_') + '.pdf');
     }
 </script>
 </body>
