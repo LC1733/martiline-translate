@@ -18,6 +18,121 @@
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { background-color: var(--bg-dark); color: var(--text-main); font-family: 'Inter', sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
 
+        /* --- LOCK SCREEN --- */
+        #lock-screen {
+            position: fixed;
+            inset: 0;
+            background: var(--bg-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            gap: 2rem;
+        }
+
+        #lock-screen .lock-brand {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 800;
+            font-size: 3.5rem;
+            color: var(--martiline-orange);
+            letter-spacing: 4px;
+        }
+
+        #lock-screen .lock-sub {
+            font-family: 'Barlow Condensed', sans-serif;
+            font-size: 1rem;
+            color: #444;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: -1.5rem;
+        }
+
+        #lock-screen .lock-box {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2.5rem 3rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.2rem;
+            min-width: 320px;
+        }
+
+        #lock-screen .lock-icon {
+            font-size: 2rem;
+            color: var(--martiline-orange);
+        }
+
+        #lock-screen label {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #555;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            align-self: flex-start;
+        }
+
+        #lock-screen input[type="password"] {
+            width: 100%;
+            background: #000;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--text-main);
+            padding: 0.75rem 1rem;
+            font-size: 1.2rem;
+            outline: none;
+            letter-spacing: 6px;
+            text-align: center;
+            transition: 0.2s;
+        }
+
+        #lock-screen input[type="password"]:focus {
+            border-color: var(--martiline-orange);
+        }
+
+        #lock-screen .btn-enter {
+            width: 100%;
+            background: var(--martiline-orange);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        #lock-screen .btn-enter:hover {
+            background: #ff8833;
+        }
+
+        #lock-screen .lock-error {
+            font-size: 0.75rem;
+            color: #ff4444;
+            font-weight: 600;
+            min-height: 1rem;
+            letter-spacing: 1px;
+        }
+
+        /* shake animation on wrong password */
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            20% { transform: translateX(-8px); }
+            40% { transform: translateX(8px); }
+            60% { transform: translateX(-6px); }
+            80% { transform: translateX(6px); }
+        }
+        .shake { animation: shake 0.4s ease; }
+
+        /* --- APP (hidden until unlock) --- */
+        #app { display: none; flex: 1; flex-direction: column; overflow: hidden; }
+        #app.unlocked { display: flex; }
+
         /* --- HEADER --- */
         header { 
             padding: 1rem 3rem; 
@@ -29,7 +144,6 @@
             flex-shrink: 0;
         }
         
-        /* MARTILINE en Naranja y tamaño doble */
         .brand-left { 
             font-family: 'Barlow Condensed'; 
             font-weight: 800; 
@@ -87,78 +201,113 @@
 </head>
 <body>
 
-<header>
-    <div class="brand-left">MARTILINE</div>
-    <div class="brand-right">MARTILINE TERMINAL TRANSLATE v7.1</div>
-</header>
-
-<div class="app-container">
-    <div class="control-bar">
-        <div class="detected-label">ORIGEN DETECTADO: <b id="lang-detected">...</b></div>
-        <div style="display:flex; align-items:center; gap:12px;">
-            <label style="font-size: 0.65rem; font-weight: 800; color: #555;">IDIOMA OBJETIVO:</label>
-            <select id="selector-target" onchange="processAll()">
-                <option value="es">ESPAÑOL</option>
-                <option value="en" selected>INGLÉS</option>
-                <option value="zh-CN">CHINO (MANDARÍN)</option>
-                <option value="de">ALEMÁN</option>
-                <option value="hi">HINDI</option>
-                <option value="ko">COREANO</option>
-                <option value="ja">JAPONÉS</option>
-                <option value="fr">FRANCÉS</option>
-                <option value="it">ITALIANO</option>
-                <option value="pt">PORTUGUÉS</option>
-                <option value="ru">RUSO</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="panels-wrapper">
-        <div class="box">
-            <div class="box-header">
-                <div class="box-label">1. Entrada de Datos</div>
-                <div class="actions-group">
-                    <button class="btn-tool" onclick="saveAsTXT('input-text', 'Entrada')">TXT</button>
-                    <button class="btn-tool btn-clear" onclick="clearField('input-text')">🗑️</button>
-                </div>
-            </div>
-            <textarea id="input-text" placeholder="Escriba o pegue el texto aquí..." oninput="processAll()"></textarea>
-        </div>
-
-        <div class="box">
-            <div class="box-header">
-                <div class="box-label">2. Traducción Español</div>
-                <div class="actions-group">
-                    <button class="btn-tool" onclick="saveAsPDF('output-es', 'Traducción Español')">PDF</button>
-                    <button class="btn-tool" onclick="saveAsTXT('output-es', 'Traduccion_ES')">TXT</button>
-                    <button class="btn-tool btn-clear" onclick="clearField('output-es')">🗑️</button>
-                </div>
-            </div>
-            <div id="output-es" class="output-div"></div>
-        </div>
-
-        <div class="box">
-            <div class="box-header">
-                <div class="box-label">3. Traducción Multilingüe</div>
-                <div class="actions-group">
-                    <button class="btn-tool" onclick="saveAsPDF('output-target', 'Traducción Multilingüe')">PDF</button>
-                    <button class="btn-tool" onclick="saveAsTXT('output-target', 'Traduccion_Multi')">TXT</button>
-                    <button class="btn-tool btn-clear" onclick="clearField('output-target')">🗑️</button>
-                </div>
-            </div>
-            <div id="output-target" class="output-div"></div>
-        </div>
+<!-- LOCK SCREEN -->
+<div id="lock-screen">
+    <div class="lock-brand">MARTILINE</div>
+    <div class="lock-sub">Terminal Translate v7.1</div>
+    <div class="lock-box">
+        <div class="lock-icon">🔒</div>
+        <label for="pwd-input">Acceso restringido</label>
+        <input type="password" id="pwd-input" placeholder="••••" maxlength="20" onkeydown="if(event.key==='Enter') checkPassword()" autofocus />
+        <button class="btn-enter" onclick="checkPassword()">INGRESAR</button>
+        <div class="lock-error" id="lock-error"></div>
     </div>
 </div>
 
-<footer>
-    <div class="copy-notice">
-        © Luis Cartes Henríquez · Creación original protegida por Derechos de Autor (Convenio de Berna, OMPI).<br>
-        Prohibida su reproducción, adaptación, explotación comercial o uso en entrenamiento de IA sin autorización expresa.
+<!-- APP (oculta hasta desbloqueo) -->
+<div id="app">
+    <header>
+        <div class="brand-left">MARTILINE</div>
+        <div class="brand-right">MARTILINE TERMINAL TRANSLATE v7.1</div>
+    </header>
+
+    <div class="app-container">
+        <div class="control-bar">
+            <div class="detected-label">ORIGEN DETECTADO: <b id="lang-detected">...</b></div>
+            <div style="display:flex; align-items:center; gap:12px;">
+                <label style="font-size: 0.65rem; font-weight: 800; color: #555;">IDIOMA OBJETIVO:</label>
+                <select id="selector-target" onchange="processAll()">
+                    <option value="es">ESPAÑOL</option>
+                    <option value="en" selected>INGLÉS</option>
+                    <option value="zh-CN">CHINO (MANDARÍN)</option>
+                    <option value="de">ALEMÁN</option>
+                    <option value="hi">HINDI</option>
+                    <option value="ko">COREANO</option>
+                    <option value="ja">JAPONÉS</option>
+                    <option value="fr">FRANCÉS</option>
+                    <option value="it">ITALIANO</option>
+                    <option value="pt">PORTUGUÉS</option>
+                    <option value="ru">RUSO</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="panels-wrapper">
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-label">1. Entrada de Datos</div>
+                    <div class="actions-group">
+                        <button class="btn-tool" onclick="saveAsTXT('input-text', 'Entrada')">TXT</button>
+                        <button class="btn-tool btn-clear" onclick="clearField('input-text')">🗑️</button>
+                    </div>
+                </div>
+                <textarea id="input-text" placeholder="Escriba o pegue el texto aquí..." oninput="processAll()"></textarea>
+            </div>
+
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-label">2. Traducción Español</div>
+                    <div class="actions-group">
+                        <button class="btn-tool" onclick="saveAsPDF('output-es', 'Traducción Español')">PDF</button>
+                        <button class="btn-tool" onclick="saveAsTXT('output-es', 'Traduccion_ES')">TXT</button>
+                        <button class="btn-tool btn-clear" onclick="clearField('output-es')">🗑️</button>
+                    </div>
+                </div>
+                <div id="output-es" class="output-div"></div>
+            </div>
+
+            <div class="box">
+                <div class="box-header">
+                    <div class="box-label">3. Traducción Multilingüe</div>
+                    <div class="actions-group">
+                        <button class="btn-tool" onclick="saveAsPDF('output-target', 'Traducción Multilingüe')">PDF</button>
+                        <button class="btn-tool" onclick="saveAsTXT('output-target', 'Traduccion_Multi')">TXT</button>
+                        <button class="btn-tool btn-clear" onclick="clearField('output-target')">🗑️</button>
+                    </div>
+                </div>
+                <div id="output-target" class="output-div"></div>
+            </div>
+        </div>
     </div>
-</footer>
+
+    <footer>
+        <div class="copy-notice">
+            © Luis Cartes Henríquez · Creación original protegida por Derechos de Autor (Convenio de Berna, OMPI).<br>
+            Prohibida su reproducción, adaptación, explotación comercial o uso en entrenamiento de IA sin autorización expresa.
+        </div>
+    </footer>
+</div>
 
 <script>
+    // --- LOCK ---
+    function checkPassword() {
+        const input = document.getElementById('pwd-input').value;
+        const errorEl = document.getElementById('lock-error');
+        if (input === '2026') {
+            document.getElementById('lock-screen').style.display = 'none';
+            document.getElementById('app').classList.add('unlocked');
+        } else {
+            errorEl.textContent = 'Clave incorrecta. Intente nuevamente.';
+            const box = document.querySelector('.lock-box');
+            box.classList.remove('shake');
+            void box.offsetWidth; // force reflow
+            box.classList.add('shake');
+            document.getElementById('pwd-input').value = '';
+            document.getElementById('pwd-input').focus();
+        }
+    }
+
+    // --- TRANSLATOR ---
     const LANG_NAMES = { 'es': 'Español', 'en': 'Inglés', 'zh-cn': 'Chino', 'de': 'Alemán', 'hi': 'Hindi', 'ko': 'Coreano', 'ja': 'Japonés', 'fr': 'Francés', 'it': 'Italiano', 'pt': 'Portugués', 'ru': 'Ruso' };
 
     async function callAPI(text, tl) {
